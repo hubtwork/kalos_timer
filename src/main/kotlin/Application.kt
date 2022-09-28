@@ -1,6 +1,7 @@
 import style.MainTheme
 import tornadofx.App
 import tornadofx.launch
+import ui.BasicTimerView
 import ui.MainView
 
 
