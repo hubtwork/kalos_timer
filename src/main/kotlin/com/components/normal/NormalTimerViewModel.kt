@@ -1,82 +1,84 @@
 package com.components.normal
 
+import com.components.serveTimeline
+import com.timer.TimerType
 import com.style.MainTheme
-import com.ui.TestController
-import javafx.beans.binding.Bindings
-import javafx.geometry.Pos
-import javafx.scene.text.Font
-import tornadofx.*
+import com.ui.TimeLimitChangeEvent
+import javafx.animation.Timeline
+import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.SimpleLongProperty
+import javafx.beans.property.SimpleObjectProperty
+import tornadofx.ViewModel
+import tornadofx.getValue
+import tornadofx.setValue
 
-/**
- * @project : maple_timer
- * created by
- *  @author  : alenheo on 2022/11/09
- *  github   : https://github.com/hubtwork
- */
+class NormalTimerViewModel (
+    param: TimerType.Normal
+): ViewModel() {
+    // Consume TimerParam
+    private var setTime: Long
+    // Properties
+    private var timeline: Timeline
+    val timeProps = SimpleLongProperty()       // timer property
+    private var warningTime: Long     // timer when starts warning
+    val isOnTicking = SimpleBooleanProperty(false)    // flag indicates is timer ticking
 
-class NormalTimerViewModel(
-    title: String,
-    private val viewModel: NormalTimerModel
-): View() {
-    private val model = TestController(initialTime = limitSecond * 1000)
+    // Properties - Getter/Setter
+    private var _timeProps by timeProps
+    private var _isOnTicking by isOnTicking
 
-    override val root =
-        hbox {
-            vbox(alignment = Pos.CENTER) {
-                label(title) {
-                    style {
-                        prefHeight = 30.px
-                        minHeight = 30.px
-                    }
-                }
-                vbox(alignment = Pos.CENTER) {
-                    text{
-                        font = Font(20.0)
-                        textProperty().bind(
-                            Bindings.createStringBinding(
-                                {
-                                    val time = viewModel.timeProps
-                                    String.format(
-                                        "%02d:%02d",
-                                        time / 1000,
-                                        time % 1000 / 10,
-                                    )
-                                }, viewModel.timeProps
-                            )
-                        )
-                        style {
-                            alignment = Pos.BASELINE_CENTER
-                        }
-                    }
-                    addClass(MainTheme.timerContainer)
-                    bindClass(viewModel._uiTimerBorder)
-                }
-                hbox {
-                    button(text = "시작") {
-                        action { model.onClickTickButton() }
-                        style {
-                            prefWidth = 60.px
-                        }
-                        textProperty().bind(
-                            Bindings.createStringBinding(
-                                {
-                                    if (model.onTick) "정지"
-                                    else "시작"
-                                }, model.isOnTick
-                            )
-                        )
-                    }
-                    button(text = "리셋") {
-                        action { model.reset() }
-                        style {
-                            prefWidth = 60.px
-                        }
-                    }
-                }
-            }
-
-            style {
-                padding = box(20.px)
+    init {
+        // Set eventBus subscriber
+        subscribe<TimeLimitChangeEvent> { event ->
+            val newWarningTime = event.time
+            warningTime = newWarningTime
+            if (_timeProps <= newWarningTime) onUiWarning()
+        }
+        // init Properties
+        warningTime = param.warningTime
+        setTime = param.timeMillis
+        _timeProps = param.timeMillis
+        // init Timeline
+        timeline = serveTimeline {
+            _timeProps -= 1
+            if (_timeProps == warningTime) onUiWarning()
+            if (_timeProps == 0L) {
+                _timeProps = setTime
+                onUiStart()
             }
         }
+    }
+    // UI Properties
+    val _uiTimerBorder = SimpleObjectProperty(MainTheme.blackBod)
+    private var uiTimerBorder by _uiTimerBorder
+
+    private fun onUiStart() {
+        uiTimerBorder = MainTheme.blackBod
+    }
+    private fun onUiWarning() {
+        uiTimerBorder = MainTheme.redBod
+    }
+
+    fun onClickTimerButton(type: NormalTimerButtonType) {
+        when(type) {
+            NormalTimerButtonType.StartStop -> {
+                if (_isOnTicking) {
+                    // timer is on tick
+                    _isOnTicking = false
+                    timeline.stop()
+                } else {
+                    // timer is stopped
+                    _isOnTicking = true
+                    timeline.play()
+                }
+            }
+            NormalTimerButtonType.Reset -> {
+                _timeProps = setTime
+                _isOnTicking = true
+                timeline.play()
+            }
+        }
+    }
+
+
 }
