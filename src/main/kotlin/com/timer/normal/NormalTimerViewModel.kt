@@ -1,15 +1,10 @@
-package com.components.normal
+package com.timer.normal
 
-import com.components.serveTimeline
-import com.timer.TimerType
+import com.timer.base.TimerType
 import com.style.MainTheme
-import com.timer.TimerViewModel
-import com.ui.TimeLimitChangeEvent
-import javafx.animation.Timeline
-import javafx.beans.property.SimpleBooleanProperty
-import javafx.beans.property.SimpleLongProperty
+import com.timer.SoundPack
+import com.timer.base.TimerViewModel
 import javafx.beans.property.SimpleObjectProperty
-import tornadofx.ViewModel
 import tornadofx.getValue
 import tornadofx.setValue
 
@@ -21,6 +16,7 @@ class NormalTimerViewModel (
     private var uiTimerBorder by _uiTimerBorder
 
     override fun onUiWarning() {
+        SoundPack.getInstance().serveSound()
         uiTimerBorder = MainTheme.redBod
     }
     override fun onUiNormal() {

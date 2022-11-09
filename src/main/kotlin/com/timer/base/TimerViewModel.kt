@@ -1,6 +1,6 @@
-package com.timer
+package com.timer.base
 
-import com.components.serveTimeline
+import com.timer.serveTimeline
 import com.ui.TimeLimitChangeEvent
 import javafx.animation.Timeline
 import javafx.beans.property.SimpleBooleanProperty
@@ -17,6 +17,7 @@ import java.util.concurrent.atomic.AtomicLong
  *  github   : https://github.com/hubtwork
  */
 abstract class TimerViewModel(type: TimerType): ViewModel() {
+    val title: String
     protected var setTime: Long
 
     protected val timeline: Timeline
@@ -37,6 +38,7 @@ abstract class TimerViewModel(type: TimerType): ViewModel() {
             if (timeValue <= newWarningTime) onUiWarning()
         }
         // init Properties
+        title = type.title
         setTime = type.initialTime.timeMillis
         timeValue = type.initialTime.timeMillis
         warningTimeProps.set(type.warningTime.timeMillis)
@@ -53,7 +55,7 @@ abstract class TimerViewModel(type: TimerType): ViewModel() {
     protected abstract fun onUiWarning()
     protected abstract fun onUiNormal()
     // for selector timer
-    fun onClickTimerButton(type: TimerButtonType) {
+    fun onClickTimerButton(type: TimerButtonType.Basic) {
         when(type) {
             TimerButtonType.Basic.StartStop -> {
                 if (onPlayingValue) {
@@ -71,7 +73,6 @@ abstract class TimerViewModel(type: TimerType): ViewModel() {
                 onPlayingValue = true
                 timeline.play()
             }
-            is TimerButtonType.ChangeTime -> TODO()
         }
     }
 

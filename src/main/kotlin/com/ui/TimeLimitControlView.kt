@@ -8,7 +8,9 @@ import tornadofx.*
 
 data class TimeLimitChangeEvent(val time: Long): FXEvent()
 
-class TimeLimitControlViewModel: ViewModel() {
+class TimeLimitControlViewModel(
+    initialWarningTime: Long
+): ViewModel() {
 
     val inputEnableState = SimpleBooleanProperty(false)
     fun changeEnableState() {
@@ -21,7 +23,7 @@ class TimeLimitControlViewModel: ViewModel() {
     fun changeButtonEnableState(state: Boolean) {
         buttonEnableState.set(state)
     }
-    val timerInput = SimpleStringProperty("5")
+    val timerInput = SimpleStringProperty(initialWarningTime.toString())
     private var timer by timerInput
 }
 

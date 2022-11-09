@@ -1,28 +1,50 @@
 package com.ui
 
-import com.components.normal.NormalTimerView
-import com.timer.Time
-import com.timer.TimerType
+import com.timer.normal.NormalTimerView
+import com.timer.model.Time
+import com.timer.base.TimerType
 import javafx.geometry.Pos
 import tornadofx.*
 
 class MainView: View() {
+    private val timeLimitController: TimeLimitControlViewModel
     private val boomTimer: NormalTimerView
-    init {
-        boomTimer = NormalTimerView.create(
-            param = TimerType.Normal(
-                title = "폭탄 타이머",
-                initialTime = Time(seconds = 10, millis = 500),
-                warningTime = Time(seconds = 5)
-            )
-        )
-    }
-    val timeLimitController = TimeLimitControlViewModel()
+    private val triggerTimer: NormalTimerView
+    private val laserTimer: NormalTimerView
+    private val weaknessTimer: NormalTimerView
+    private val ccTimer: NormalTimerView
 
-    val triggerTimer = BasicTimerView("트리거 타이머", 15)
-    val laserTimer = BasicTimerView("레이저 타이머", 15)
-    val weaknessTimer = BasicTimerView("허약 타이머", 20)
-    val ccTimer = BasicTimerView("4간섭 타이머", 60)
+    init {
+        val warningSecond: Long = 5
+        timeLimitController = TimeLimitControlViewModel(initialWarningTime = warningSecond)
+        boomTimer = NormalTimerView.create(
+            title = "폭탄 타이머",
+            initialTime = Time(seconds = 10, millis = 500),
+            warningSecond = warningSecond,
+        )
+        triggerTimer = NormalTimerView.create(
+            title = "트리거 타이머",
+            initialTime = Time(seconds = 15),
+            warningSecond = warningSecond,
+        )
+        laserTimer = NormalTimerView.create(
+            title = "레이저 타이머",
+            initialTime = Time(seconds = 15),
+            warningSecond = warningSecond,
+        )
+        weaknessTimer = NormalTimerView.create(
+            title = "허약 타이머",
+            initialTime = Time(seconds = 20),
+            warningSecond = warningSecond,
+        )
+        ccTimer = NormalTimerView.create(
+            title = "4간섭 타이머",
+            initialTime = Time(seconds = 60),
+            warningSecond = warningSecond,
+        )
+
+    }
+
 
     override val root =
         vbox {

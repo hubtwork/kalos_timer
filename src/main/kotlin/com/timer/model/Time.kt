@@ -1,4 +1,4 @@
-package com.timer
+package com.timer.model
 
 /**
  * @project : maple_timer

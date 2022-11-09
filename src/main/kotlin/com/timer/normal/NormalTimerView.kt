@@ -1,9 +1,10 @@
-package com.components.normal
+package com.timer.normal
 
 import com.style.MainTheme
-import com.timer.TimerButtonType
-import com.timer.TimerType
-import com.timer.TimerView
+import com.timer.base.TimerButtonType
+import com.timer.base.TimerType
+import com.timer.base.TimerView
+import com.timer.model.Time
 import javafx.beans.binding.Bindings
 import javafx.geometry.Pos
 import javafx.scene.text.Font
@@ -17,14 +18,20 @@ import tornadofx.*
  */
 
 class NormalTimerView(
-    override val timerTitle: String,
     override val viewModel: NormalTimerViewModel
 ): TimerView<NormalTimerViewModel>() {
     companion object {
-        fun create(param: TimerType.Normal): NormalTimerView {
-            val vm = NormalTimerViewModel(param = param)
+        fun create(
+            title: String,
+            initialTime: Time,
+            warningSecond: Long,
+        ): NormalTimerView {
+            val vm = NormalTimerViewModel(param = TimerType.Normal(
+                title = title,
+                initialTime = initialTime,
+                warningTime = Time(seconds = warningSecond)
+            ))
             return NormalTimerView(
-                timerTitle = param.title,
                 viewModel = vm
             )
         }
@@ -33,7 +40,7 @@ class NormalTimerView(
     override val root =
         hbox {
             vbox(alignment = Pos.CENTER) {
-                label(title) {
+                label(viewModel.title) {
                     style {
                         prefHeight = 30.px
                         minHeight = 30.px

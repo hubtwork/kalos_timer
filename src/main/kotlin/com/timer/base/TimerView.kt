@@ -1,4 +1,4 @@
-package com.timer
+package com.timer.base
 
 import tornadofx.View
 
@@ -9,7 +9,6 @@ import tornadofx.View
  *  github   : https://github.com/hubtwork
  */
 abstract class TimerView<VM: TimerViewModel>: View() {
-    abstract val timerTitle: String
     abstract val viewModel: VM
 
 }

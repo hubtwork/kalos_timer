@@ -1,6 +1,7 @@
 package com.ui
 
 import com.style.MainTheme
+import com.timer.SoundPack
 import javafx.animation.Animation
 import javafx.animation.KeyFrame
 import javafx.animation.Timeline
@@ -31,7 +32,10 @@ class SelectableTimerController(
     init {
         subscribe<TimeLimitChangeEvent> {
                 event -> _timeLimit.set(event.time)
-            if (timer < timeLimit) border = MainTheme.redBod
+            if (timer < timeLimit) {
+                SoundPack.getInstance().serveSound()
+                border = MainTheme.redBod
+            }
         }
     }
     fun selectPhase(state: Phase) {
@@ -47,7 +51,10 @@ class SelectableTimerController(
     private val timerTick = EventHandler<ActionEvent> {
         timer -= 1
         isOnTick.set(true)
-        if (timer == timeLimit) border = MainTheme.redBod
+        if (timer == timeLimit) {
+            SoundPack.getInstance().serveSound()
+            border = MainTheme.redBod
+        }
         if (timer == 0L) {
             timeProperty.set(timerLimit)
             border = MainTheme.blackBod

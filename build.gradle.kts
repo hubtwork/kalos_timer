@@ -15,7 +15,7 @@ repositories {
 
 javafx {
     version = "19"
-    modules = listOf("javafx.controls", "javafx.graphics")
+    modules = listOf("javafx.controls", "javafx.graphics", "javafx.media")
 }
 
 dependencies {
