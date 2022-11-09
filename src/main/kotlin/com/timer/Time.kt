@@ -6,6 +6,9 @@ package com.timer
  *  @author  : alenheo on 2022/11/09
  *  github   : https://github.com/hubtwork
  */
-object TimerFactory {
-
+data class Time(
+    val seconds: Long,
+    val millis: Long = 0L,
+) {
+    val timeMillis: Long = seconds * 1000 + millis
 }

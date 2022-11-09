@@ -1,12 +1,24 @@
 package com.ui
 
+import com.components.normal.NormalTimerView
+import com.timer.Time
+import com.timer.TimerType
 import javafx.geometry.Pos
 import tornadofx.*
 
 class MainView: View() {
+    private val boomTimer: NormalTimerView
+    init {
+        boomTimer = NormalTimerView.create(
+            param = TimerType.Normal(
+                title = "폭탄 타이머",
+                initialTime = Time(seconds = 10, millis = 500),
+                warningTime = Time(seconds = 5)
+            )
+        )
+    }
     val timeLimitController = TimeLimitControlViewModel()
 
-    val boomTimer = BasicTimerView("폭탄 타이머", 10)
     val triggerTimer = BasicTimerView("트리거 타이머", 15)
     val laserTimer = BasicTimerView("레이저 타이머", 15)
     val weaknessTimer = BasicTimerView("허약 타이머", 20)

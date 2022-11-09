@@ -1,6 +1,9 @@
 package com.components.normal
 
 import com.style.MainTheme
+import com.timer.TimerButtonType
+import com.timer.TimerType
+import com.timer.TimerView
 import javafx.beans.binding.Bindings
 import javafx.geometry.Pos
 import javafx.scene.text.Font
@@ -14,9 +17,18 @@ import tornadofx.*
  */
 
 class NormalTimerView(
-    title: String,
-    private val viewModel: NormalTimerViewModel
-): View() {
+    override val timerTitle: String,
+    override val viewModel: NormalTimerViewModel
+): TimerView<NormalTimerViewModel>() {
+    companion object {
+        fun create(param: TimerType.Normal): NormalTimerView {
+            val vm = NormalTimerViewModel(param = param)
+            return NormalTimerView(
+                timerTitle = param.title,
+                viewModel = vm
+            )
+        }
+    }
 
     override val root =
         hbox {
@@ -33,7 +45,7 @@ class NormalTimerView(
                         textProperty().bind(
                             Bindings.createStringBinding(
                                 {
-                                    val time = viewModel.timeProps
+                                    val time = viewModel.timeProps.get()
                                     String.format(
                                         "%02d:%02d",
                                         time / 1000,
@@ -51,21 +63,21 @@ class NormalTimerView(
                 }
                 hbox {
                     button(text = "시작") {
-                        action { viewModel.onClickTimerButton(type = NormalTimerButtonType.StartStop) }
+                        action { viewModel.onClickTimerButton(type = TimerButtonType.Basic.StartStop) }
                         style {
                             prefWidth = 60.px
                         }
                         textProperty().bind(
                             Bindings.createStringBinding(
                                 {
-                                    if (viewModel.isOnTicking.get()) "정지"
+                                    if (viewModel.onPlayingProps.get()) "정지"
                                     else "시작"
-                                }, viewModel.isOnTicking
+                                }, viewModel.onPlayingProps
                             )
                         )
                     }
                     button(text = "리셋") {
-                        action { viewModel.onClickTimerButton(type = NormalTimerButtonType.Reset) }
+                        action { viewModel.onClickTimerButton(type = TimerButtonType.Basic.Reset) }
                         style {
                             prefWidth = 60.px
                         }

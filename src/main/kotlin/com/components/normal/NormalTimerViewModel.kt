@@ -3,6 +3,7 @@ package com.components.normal
 import com.components.serveTimeline
 import com.timer.TimerType
 import com.style.MainTheme
+import com.timer.TimerViewModel
 import com.ui.TimeLimitChangeEvent
 import javafx.animation.Timeline
 import javafx.beans.property.SimpleBooleanProperty
@@ -14,71 +15,15 @@ import tornadofx.setValue
 
 class NormalTimerViewModel (
     param: TimerType.Normal
-): ViewModel() {
-    // Consume TimerParam
-    private var setTime: Long
-    // Properties
-    private var timeline: Timeline
-    val timeProps = SimpleLongProperty()       // timer property
-    private var warningTime: Long     // timer when starts warning
-    val isOnTicking = SimpleBooleanProperty(false)    // flag indicates is timer ticking
-
-    // Properties - Getter/Setter
-    private var _timeProps by timeProps
-    private var _isOnTicking by isOnTicking
-
-    init {
-        // Set eventBus subscriber
-        subscribe<TimeLimitChangeEvent> { event ->
-            val newWarningTime = event.time
-            warningTime = newWarningTime
-            if (_timeProps <= newWarningTime) onUiWarning()
-        }
-        // init Properties
-        warningTime = param.warningTime
-        setTime = param.timeMillis
-        _timeProps = param.timeMillis
-        // init Timeline
-        timeline = serveTimeline {
-            _timeProps -= 1
-            if (_timeProps == warningTime) onUiWarning()
-            if (_timeProps == 0L) {
-                _timeProps = setTime
-                onUiStart()
-            }
-        }
-    }
+): TimerViewModel(type = param) {
     // UI Properties
     val _uiTimerBorder = SimpleObjectProperty(MainTheme.blackBod)
     private var uiTimerBorder by _uiTimerBorder
 
-    private fun onUiStart() {
-        uiTimerBorder = MainTheme.blackBod
-    }
-    private fun onUiWarning() {
+    override fun onUiWarning() {
         uiTimerBorder = MainTheme.redBod
     }
-
-    fun onClickTimerButton(type: NormalTimerButtonType) {
-        when(type) {
-            NormalTimerButtonType.StartStop -> {
-                if (_isOnTicking) {
-                    // timer is on tick
-                    _isOnTicking = false
-                    timeline.stop()
-                } else {
-                    // timer is stopped
-                    _isOnTicking = true
-                    timeline.play()
-                }
-            }
-            NormalTimerButtonType.Reset -> {
-                _timeProps = setTime
-                _isOnTicking = true
-                timeline.play()
-            }
-        }
+    override fun onUiNormal() {
+        uiTimerBorder = MainTheme.blackBod
     }
-
-
 }
