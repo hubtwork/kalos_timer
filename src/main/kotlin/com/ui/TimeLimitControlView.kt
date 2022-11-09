@@ -1,8 +1,7 @@
-package ui
+package com.ui
 
 import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleBooleanProperty
-import javafx.beans.property.SimpleLongProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Pos
 import tornadofx.*

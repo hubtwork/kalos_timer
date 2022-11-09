@@ -3,9 +3,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.7.10"
     id("org.openjfx.javafxplugin") version "0.0.8"
+    java
 }
 
-group = "org.example"
+group = "com"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -13,7 +14,7 @@ repositories {
 }
 
 javafx {
-    version = "11.0.2"
+    version = "19"
     modules = listOf("javafx.controls", "javafx.graphics")
 }
 
@@ -27,5 +28,19 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+
+tasks.withType<Jar> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes["Main-Class"] = "com.ApplicationKt"
+    }
+    from(sourceSets.main.get().output)
+
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
 }

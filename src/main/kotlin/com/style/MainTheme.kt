@@ -1,6 +1,5 @@
-package style
+package com.style
 
-import javafx.scene.paint.Color
 import tornadofx.*
 
 class MainTheme: Stylesheet() {
@@ -26,7 +25,9 @@ class MainTheme: Stylesheet() {
 
     private fun initBoxBindings() {
         timerContainer {
+            minWidth = 120.px
             prefWidth = 120.px
+            minHeight = 60.px
             prefHeight = 60.px
         }
         redBod {
