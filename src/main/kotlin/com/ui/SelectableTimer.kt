@@ -27,6 +27,7 @@ class SelectableTimerController(
     private var timeLimit by _timeLimit
     val isOnTick = SimpleBooleanProperty(false)
     var onTick by isOnTick
+
     init {
         subscribe<TimeLimitChangeEvent> {
                 event -> _timeLimit.set(event.time)
