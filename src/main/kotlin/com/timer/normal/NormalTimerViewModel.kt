@@ -1,9 +1,9 @@
 package com.timer.normal
 
-import com.timer.base.TimerType
+import com.timer.model.TimerType
 import com.style.MainTheme
-import com.timer.SoundPack
 import com.timer.base.TimerViewModel
+import com.util.resource.Resources
 import javafx.beans.property.SimpleObjectProperty
 import tornadofx.getValue
 import tornadofx.setValue
@@ -16,7 +16,7 @@ class NormalTimerViewModel (
     private var uiTimerBorder by _uiTimerBorder
 
     override fun onUiWarning() {
-        SoundPack.getInstance().serveSound()
+        Resources.SoundPack.getInstance().serveSound()
         uiTimerBorder = MainTheme.redBod
     }
     override fun onUiNormal() {

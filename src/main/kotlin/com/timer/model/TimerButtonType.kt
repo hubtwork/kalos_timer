@@ -1,6 +1,4 @@
-package com.timer.base
-
-import com.timer.model.Time
+package com.timer.model
 
 /**
  * @project : maple_timer

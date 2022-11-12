@@ -2,7 +2,6 @@ package com.ui
 
 import com.timer.normal.NormalTimerView
 import com.timer.model.Time
-import com.timer.base.TimerType
 import javafx.geometry.Pos
 import tornadofx.*
 

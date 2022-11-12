@@ -1,8 +1,4 @@
-package com.timer.base
-
-import com.timer.model.Time
-
-
+package com.timer.model
 
 
 sealed interface TimerType {

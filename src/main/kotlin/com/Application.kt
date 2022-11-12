@@ -1,6 +1,5 @@
 package com
 import com.style.MainTheme
-import com.timer.SoundPack
 import com.ui.MainView
 import javafx.stage.Stage
 import tornadofx.App
@@ -17,6 +16,5 @@ class MapleTimerApp: App(MainView::class, MainTheme::class) {
 }
 
 fun main(args: Array<String>) {
-    SoundPack.initialize()
     launch<MapleTimerApp>(args)
 }

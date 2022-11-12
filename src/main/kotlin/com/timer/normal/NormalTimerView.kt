@@ -1,8 +1,8 @@
 package com.timer.normal
 
 import com.style.MainTheme
-import com.timer.base.TimerButtonType
-import com.timer.base.TimerType
+import com.timer.model.TimerButtonType
+import com.timer.model.TimerType
 import com.timer.base.TimerView
 import com.timer.model.Time
 import javafx.beans.binding.Bindings

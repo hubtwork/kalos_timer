@@ -1,5 +1,7 @@
 package com.timer.base
 
+import com.timer.model.TimerButtonType
+import com.timer.model.TimerType
 import com.timer.serveTimeline
 import com.ui.TimeLimitChangeEvent
 import javafx.animation.Timeline
