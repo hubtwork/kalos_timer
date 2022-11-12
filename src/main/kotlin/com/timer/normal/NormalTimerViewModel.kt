@@ -16,7 +16,6 @@ class NormalTimerViewModel (
     private var uiTimerBorder by _uiTimerBorder
 
     override fun onUiWarning() {
-        Resources.SoundPack.getInstance().serveSound()
         uiTimerBorder = MainTheme.redBod
     }
     override fun onUiNormal() {
