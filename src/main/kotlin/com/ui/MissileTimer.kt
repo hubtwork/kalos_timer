@@ -355,7 +355,8 @@ class MissileTimer(
                     }
                 }
                 style {
-                    prefWidth = 440.px
+                    prefWidth = 460.px
+                    endMargin = 30.px
                 }
             }
 }

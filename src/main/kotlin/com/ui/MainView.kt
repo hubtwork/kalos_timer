@@ -92,5 +92,19 @@ class MainView: View() {
                 }
                 add(MissileTimer())
             }
+            hbox(alignment = Pos.BOTTOM_RIGHT) {
+                vbox(alignment = Pos.CENTER_LEFT) {
+                    label(text = "개발: hubtwork ( hubtwork@gmail.com )")
+                    label(text = "기획: TopXenonSoon, Ensillia")
+                }
+                style {
+                    paddingTop = 20
+                    fontSize = 15.px
+                }
+            }
+            style {
+                paddingRight = 20
+                paddingBottom = 20
+            }
         }
 }
