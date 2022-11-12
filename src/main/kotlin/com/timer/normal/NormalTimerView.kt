@@ -5,6 +5,8 @@ import com.timer.model.TimerButtonType
 import com.timer.model.TimerType
 import com.timer.base.TimerView
 import com.timer.model.Time
+import com.util.resource.sound.SoundPlayer
+import com.util.resource.sound.SoundType
 import javafx.beans.binding.Bindings
 import javafx.geometry.Pos
 import javafx.scene.text.Font
@@ -25,12 +27,16 @@ class NormalTimerView(
             title: String,
             initialTime: Time,
             warningSecond: Long,
+            type: SoundType? = null,
         ): NormalTimerView {
             val vm = NormalTimerViewModel(param = TimerType.Normal(
                 title = title,
                 initialTime = initialTime,
                 warningTime = Time(seconds = warningSecond)
             ))
+            type?.let {
+                vm.registerOnSoundPlayListener(_listener = SoundPlayer(it))
+            }
             return NormalTimerView(
                 viewModel = vm
             )

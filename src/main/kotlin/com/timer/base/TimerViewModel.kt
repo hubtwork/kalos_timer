@@ -4,6 +4,8 @@ import com.timer.model.TimerButtonType
 import com.timer.model.TimerType
 import com.timer.serveTimeline
 import com.ui.TimeLimitChangeEvent
+import com.util.resource.sound.OnSoundPlayListener
+import com.util.resource.sound.SoundPlayer
 import javafx.animation.Timeline
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleLongProperty
@@ -18,7 +20,9 @@ import java.util.concurrent.atomic.AtomicLong
  *  @author  : alenheo on 2022/11/09
  *  github   : https://github.com/hubtwork
  */
-abstract class TimerViewModel(type: TimerType): ViewModel() {
+abstract class TimerViewModel(
+    type: TimerType
+): ViewModel() {
     val title: String
     protected var setTime: Long
 
@@ -30,7 +34,8 @@ abstract class TimerViewModel(type: TimerType): ViewModel() {
     // Properties - Getter/Setter
     private var timeValue by timeProps
     private var onPlayingValue by onPlayingProps
-
+    // Listeners
+    private var mListener: OnSoundPlayListener? = null
 
     init {
         // Set eventBus subscriber
@@ -54,7 +59,14 @@ abstract class TimerViewModel(type: TimerType): ViewModel() {
             }
         }
     }
-    protected abstract fun onUiWarning()
+    fun registerOnSoundPlayListener(_listener: OnSoundPlayListener) {
+        if (mListener != null) mListener = null
+        mListener = _listener
+    }
+
+    protected open fun onUiWarning() {
+        mListener?.playSound()
+    }
     protected abstract fun onUiNormal()
     // for selector timer
     fun onClickTimerButton(type: TimerButtonType.Basic) {
@@ -77,6 +89,5 @@ abstract class TimerViewModel(type: TimerType): ViewModel() {
             }
         }
     }
-
 
 }

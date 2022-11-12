@@ -16,6 +16,7 @@ class NormalTimerViewModel (
     private var uiTimerBorder by _uiTimerBorder
 
     override fun onUiWarning() {
+        super.onUiWarning()
         uiTimerBorder = MainTheme.redBod
     }
     override fun onUiNormal() {

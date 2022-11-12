@@ -3,6 +3,7 @@ package com.ui
 import com.timer.normal.NormalTimerView
 import com.timer.model.Time
 import javafx.geometry.Pos
+import javafx.scene.control.RadioButton
 import tornadofx.*
 
 class MainView: View() {
@@ -42,6 +43,7 @@ class MainView: View() {
             warningSecond = warningSecond,
         )
 
+        RadioButton().setOnAction {  }
     }
 
 
