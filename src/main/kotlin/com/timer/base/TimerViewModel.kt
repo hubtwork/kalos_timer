@@ -1,11 +1,10 @@
 package com.timer.base
 
-import com.timer.model.TimerButtonType
+import com.timer.model.TimerActionType
 import com.timer.model.TimerType
 import com.timer.serveTimeline
 import com.ui.TimeLimitChangeEvent
 import com.util.resource.sound.OnSoundPlayListener
-import com.util.resource.sound.SoundPlayer
 import javafx.animation.Timeline
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleLongProperty
@@ -26,7 +25,7 @@ abstract class TimerViewModel(
     val title: String
     protected var setTime: Long
 
-    protected val timeline: Timeline
+    private val timeline: Timeline
     // Properties
     val timeProps = SimpleLongProperty()
     val onPlayingProps = SimpleBooleanProperty()
@@ -46,8 +45,12 @@ abstract class TimerViewModel(
         }
         // init Properties
         title = type.title
-        setTime = type.initialTime.timeMillis
-        timeValue = type.initialTime.timeMillis
+        val initialTime = when(type) {
+            is TimerType.Normal -> type.initialTime
+            is TimerType.Selectable -> type.initialPhase.time
+        }.timeMillis
+        setTime = initialTime
+        timeValue = initialTime
         warningTimeProps.set(type.warningTime.timeMillis)
         // init Timeline
         timeline = serveTimeline {
@@ -69,9 +72,9 @@ abstract class TimerViewModel(
     }
     protected abstract fun onUiNormal()
     // for selector timer
-    fun onClickTimerButton(type: TimerButtonType.Basic) {
+    fun onClickTimerButton(type: TimerActionType.Basic) {
         when(type) {
-            TimerButtonType.Basic.StartStop -> {
+            TimerActionType.Basic.StartStop -> {
                 if (onPlayingValue) {
                     // timer is on playing
                     onPlayingValue = false
@@ -82,7 +85,7 @@ abstract class TimerViewModel(
                     timeline.play()
                 }
             }
-            TimerButtonType.Basic.Reset -> {
+            TimerActionType.Basic.Reset -> {
                 timeValue = setTime
                 onPlayingValue = true
                 timeline.play()

@@ -1,10 +1,9 @@
-package com.timer.normal
+package com.timer.selectable
 
 import com.style.MainTheme
+import com.timer.base.TimerView
 import com.timer.model.TimerActionType
 import com.timer.model.TimerType
-import com.timer.base.TimerView
-import com.timer.model.Time
 import com.util.resource.sound.SoundPlayer
 import com.util.resource.sound.SoundType
 import javafx.beans.binding.Bindings
@@ -15,32 +14,37 @@ import tornadofx.*
 /**
  * @project : maple_timer
  * created by
- *  @author  : alenheo on 2022/11/09
+ *  @author  : alenheo on 2022/11/12
  *  github   : https://github.com/hubtwork
  */
+class SelectableTimerView(
+    override val viewModel: SelectableTimerViewModel,
+    private val selectors: List<SelectablePhase>
+): TimerView<SelectableTimerViewModel>() {
 
-class NormalTimerView(
-    override val viewModel: NormalTimerViewModel
-): TimerView<NormalTimerViewModel>() {
     companion object {
+        private const val TAG_ToggleGroup = "PhaseToggleGroup"
+
         fun create(
-            title: String,
-            initialTime: Time,
-            warningSecond: Long,
-            type: SoundType? = null,
-        ): NormalTimerView {
-            val vm = NormalTimerViewModel(param = TimerType.Normal(
-                title = title,
-                initialTime = initialTime,
-                warningTime = Time(seconds = warningSecond)
-            ))
-            type?.let {
+            timerType: TimerType.Selectable,
+            soundType: SoundType? = null,
+        ): SelectableTimerView {
+            val vm = SelectableTimerViewModel(param = timerType)
+            soundType?.let {
                 vm.registerOnSoundPlayListener(_listener = SoundPlayer(it))
             }
-            return NormalTimerView(
-                viewModel = vm
+            return SelectableTimerView(
+                viewModel = vm,
+                selectors = timerType.selectors,
             )
         }
+    }
+
+    init {
+        viewModel.phaseProps.addListener { _, _, newValue ->
+            if (newValue != null) viewModel.selectTimer(newValue)
+        }
+
     }
 
     override val root =
@@ -53,7 +57,7 @@ class NormalTimerView(
                     }
                 }
                 vbox(alignment = Pos.CENTER) {
-                    text{
+                    text {
                         font = Font(20.0)
                         textProperty().bind(
                             Bindings.createStringBinding(
@@ -71,6 +75,7 @@ class NormalTimerView(
                             alignment = Pos.BASELINE_CENTER
                         }
                     }
+
                     addClass(MainTheme.timerContainer)
                     bindClass(viewModel.timerBorderProps)
                 }
@@ -95,6 +100,19 @@ class NormalTimerView(
                             prefWidth = 60.px
                         }
                     }
+                }
+                togglegroup {
+                    id = TAG_ToggleGroup
+                    run {
+                        selectors.forEach { phase ->
+                            radiobutton(phase.label, value = phase) {
+                                style {
+                                    paddingTop = 10
+                                }
+                            }
+                        }
+                    }
+                    selectedValueProperty<SelectablePhase>().bindBidirectional(viewModel.phaseProps)
                 }
             }
 

@@ -6,9 +6,9 @@ package com.timer.model
  *  @author  : alenheo on 2022/11/09
  *  github   : https://github.com/hubtwork
  */
-sealed interface TimerButtonType {
-    enum class Basic: TimerButtonType {
+sealed interface TimerActionType {
+    enum class Basic: TimerActionType {
         StartStop, Reset;
     }
-    data class ChangeTime(val time: Time): TimerButtonType
+    data class ChangeTime(val time: Time): TimerActionType
 }

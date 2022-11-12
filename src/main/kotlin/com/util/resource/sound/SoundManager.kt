@@ -16,6 +16,9 @@ class SoundManager {
     companion object {
         @Volatile private var instance: SoundManager? = null
 
+        @JvmStatic fun initialize() {
+            instance = SoundManager().also { instance = it }
+        }
         @JvmStatic fun getInstance(): SoundManager =
             instance ?: synchronized(this) {
                 instance ?: SoundManager().also {
