@@ -4,7 +4,6 @@ import com.style.MainTheme
 import com.timer.model.TimerActionType
 import com.timer.model.TimerType
 import com.timer.base.TimerView
-import com.timer.model.Time
 import com.util.resource.sound.SoundPlayer
 import com.util.resource.sound.SoundType
 import javafx.beans.binding.Bindings
@@ -24,17 +23,11 @@ class NormalTimerView(
 ): TimerView<NormalTimerViewModel>() {
     companion object {
         fun create(
-            title: String,
-            initialTime: Time,
-            warningSecond: Long,
-            type: SoundType? = null,
+            timerType: TimerType.Normal,
+            soundType: SoundType? = null,
         ): NormalTimerView {
-            val vm = NormalTimerViewModel(param = TimerType.Normal(
-                title = title,
-                initialTime = initialTime,
-                warningTime = Time(seconds = warningSecond)
-            ))
-            type?.let {
+            val vm = NormalTimerViewModel(type = timerType)
+            soundType?.let {
                 vm.registerOnSoundPlayListener(_listener = SoundPlayer(it))
             }
             return NormalTimerView(

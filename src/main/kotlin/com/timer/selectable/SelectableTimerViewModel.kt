@@ -15,12 +15,12 @@ import tornadofx.setValue
  *  github   : https://github.com/hubtwork
  */
 class SelectableTimerViewModel(
-    param: TimerType.Selectable
-): TimerViewModel(type = param) {
+    type: TimerType.Selectable
+): TimerViewModel(type = type) {
     // UI Properties
     val timerBorderProps = SimpleObjectProperty(MainTheme.blackBod)
     private var uiTimerBorder by timerBorderProps
-    val phaseProps = SimpleObjectProperty<SelectablePhase>(param.initialPhase)
+    val phaseProps = SimpleObjectProperty<SelectablePhase>(type.initialPhase)
     private var currentPhase by phaseProps
 
     fun selectTimer(phase: SelectablePhase) {

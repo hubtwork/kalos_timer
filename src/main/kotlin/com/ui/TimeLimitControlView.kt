@@ -1,5 +1,6 @@
 package com.ui
 
+import com.timer.model.Time
 import javafx.beans.binding.Bindings
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleStringProperty
@@ -9,7 +10,7 @@ import tornadofx.*
 data class TimeLimitChangeEvent(val time: Long): FXEvent()
 
 class TimeLimitControlViewModel(
-    initialWarningTime: Long
+    initialWarningTime: Time
 ): ViewModel() {
 
     val inputEnableState = SimpleBooleanProperty(false)
@@ -23,7 +24,7 @@ class TimeLimitControlViewModel(
     fun changeButtonEnableState(state: Boolean) {
         buttonEnableState.set(state)
     }
-    val timerInput = SimpleStringProperty(initialWarningTime.toString())
+    val timerInput = SimpleStringProperty(initialWarningTime.seconds.toString())
     private var timer by timerInput
 }
 

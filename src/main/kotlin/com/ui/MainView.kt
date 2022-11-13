@@ -7,52 +7,14 @@ import com.timer.selectable.SelectablePhase
 import com.timer.selectable.SelectableTimerView
 import com.util.resource.sound.SoundType
 import javafx.geometry.Pos
-import javafx.scene.control.RadioButton
 import tornadofx.*
 
 class MainView: View() {
     private val timeLimitController: TimeLimitControlViewModel
-    private val boomTimer: NormalTimerView
-    private val triggerTimer: NormalTimerView
-    private val laserTimer: NormalTimerView
-    private val arrowTimer: NormalTimerView
-    private val ccTimer: NormalTimerView
-
-    private val warningSecond: Long = 5
+    private val warningTime = Time(seconds = 5)
 
     init {
-        timeLimitController = TimeLimitControlViewModel(initialWarningTime = warningSecond)
-        boomTimer = NormalTimerView.create(
-            title = "폭탄 타이머",
-            initialTime = Time(seconds = 10, millis = 500),
-            warningSecond = warningSecond,
-            type = SoundType.Bomb,
-        )
-        triggerTimer = NormalTimerView.create(
-            title = "트리거 타이머",
-            initialTime = Time(seconds = 15),
-            warningSecond = warningSecond,
-            type = SoundType.Trigger,
-        )
-        laserTimer = NormalTimerView.create(
-            title = "레이저 타이머",
-            initialTime = Time(seconds = 15),
-            warningSecond = warningSecond,
-            type = SoundType.Laser,
-        )
-        arrowTimer = NormalTimerView.create(
-            title = "암흑화살 타이머",
-            initialTime = Time(seconds = 15),
-            warningSecond = warningSecond,
-            type = SoundType.Arrow,
-        )
-        ccTimer = NormalTimerView.create(
-            title = "4간섭 타이머",
-            initialTime = Time(seconds = 60),
-            warningSecond = warningSecond,
-            type = SoundType.CC,
-        )
-
+        timeLimitController = TimeLimitControlViewModel(initialWarningTime = warningTime)
     }
 
 
@@ -68,19 +30,59 @@ class MainView: View() {
             }
             hbox(alignment = Pos.TOP_CENTER) {
                 vbox {
-                    add(boomTimer)
-                    add(triggerTimer)
+                    run {
+                        val param = TimerType.Normal(
+                            title = "폭탄 타이머",
+                            initialTime = Time(seconds = 10, millis = 500),
+                            warningTime = warningTime,
+                        )
+                        add(NormalTimerView.create(
+                            timerType = param,
+                            soundType = SoundType.Bomb
+                        ))
+                    }
+                    run {
+                        val param = TimerType.Normal(
+                            title = "트리거 타이머",
+                            initialTime = Time(seconds = 15),
+                            warningTime = warningTime,
+                        )
+                        add(NormalTimerView.create(
+                            timerType = param,
+                            soundType = SoundType.Trigger
+                        ))
+                    }
                 }
                 vbox {
-                    add(laserTimer)
-                    add(arrowTimer)
+                    run {
+                        val param = TimerType.Normal(
+                            title = "레이저 타이머",
+                            initialTime = Time(seconds = 15),
+                            warningTime = warningTime,
+                        )
+                        add(NormalTimerView.create(
+                            timerType = param,
+                            soundType = SoundType.Laser
+                        ))
+                    }
+                    run {
+                        val param = TimerType.Normal(
+                            title = "암흑화살 타이머",
+                            initialTime = Time(seconds = 15),
+                            warningTime = warningTime,
+                        )
+                        add(NormalTimerView.create(
+                            timerType = param,
+                            soundType = SoundType.Arrow
+                        ))
+                    }
                 }
                 vbox {
                     run {
                         val breathTimerParam = TimerType.Selectable(
                             title = "브레스 타이머",
                             initialPhase = SelectablePhase.Breath.Phase1,
-                            warningTime = Time(seconds = warningSecond),
+                            warningTime = warningTime,
                             selectors = SelectablePhase.Breath.values().toList()
                         )
                         add(SelectableTimerView.create(
@@ -90,7 +92,17 @@ class MainView: View() {
                     }
                 }
                 vbox {
-                    add(ccTimer)
+                    run {
+                        val param = TimerType.Normal(
+                            title = "4간섭 타이머",
+                            initialTime = Time(seconds = 60),
+                            warningTime = warningTime,
+                        )
+                        add(NormalTimerView.create(
+                            timerType = param,
+                            soundType = SoundType.Arrow
+                        ))
+                    }
                 }
                 add(MissileTimer())
             }

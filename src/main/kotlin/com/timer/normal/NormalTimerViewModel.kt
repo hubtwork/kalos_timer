@@ -8,8 +8,8 @@ import tornadofx.getValue
 import tornadofx.setValue
 
 class NormalTimerViewModel (
-    param: TimerType.Normal
-): TimerViewModel(type = param) {
+    type: TimerType.Normal
+): TimerViewModel(type = type) {
     // UI Properties
     val timerBorderProps = SimpleObjectProperty(MainTheme.blackBod)
     private var uiTimerBorder by timerBorderProps

@@ -29,7 +29,7 @@ class SelectableTimerView(
             timerType: TimerType.Selectable,
             soundType: SoundType? = null,
         ): SelectableTimerView {
-            val vm = SelectableTimerViewModel(param = timerType)
+            val vm = SelectableTimerViewModel(type = timerType)
             soundType?.let {
                 vm.registerOnSoundPlayListener(_listener = SoundPlayer(it))
             }
