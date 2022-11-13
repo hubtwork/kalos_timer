@@ -100,7 +100,7 @@ class MainView: View() {
                         )
                         add(NormalTimerView.create(
                             timerType = param,
-                            soundType = SoundType.Arrow
+                            soundType = SoundType.Interference
                         ))
                     }
                 }
