@@ -11,7 +11,7 @@ package com.util.resource.sound
 enum class SoundType(val fileName: String) {
     Bomb("/sound_bomb.wav"),
     Breath("/sound_breath.wav"),
-    Interference("/sound_interference.mp3"),
+    Interference("/sound_interference.wav"),
     Laser("/sound_laser.wav"),
     Trigger("/sound_trigger.wav"),
     Arrow("/sound_arrow.mp3"),

@@ -95,7 +95,7 @@ class MainView: View() {
                     run {
                         val param = TimerType.Normal(
                             title = "4간섭 타이머",
-                            initialTime = Time(seconds = 60),
+                            initialTime = Time(seconds = 6),
                             warningTime = warningTime,
                         )
                         add(NormalTimerView.create(
