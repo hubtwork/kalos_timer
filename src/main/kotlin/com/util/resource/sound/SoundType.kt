@@ -12,5 +12,8 @@ enum class SoundType(val fileName: String) {
     Bomb("/sound_bomb.wav"),
     Breath("/sound_breath.wav"),
     CC("/sound_cc.mp3"),
-    Laser("/sound_laser.wav");
+    Laser("/sound_laser.wav"),
+    Trigger("/sound_trigger.wav"),
+    Arrow("/sound_arrow.mp3"),
+    ;
 }

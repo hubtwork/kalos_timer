@@ -15,7 +15,7 @@ class MainView: View() {
     private val boomTimer: NormalTimerView
     private val triggerTimer: NormalTimerView
     private val laserTimer: NormalTimerView
-    private val weaknessTimer: NormalTimerView
+    private val arrowTimer: NormalTimerView
     private val ccTimer: NormalTimerView
 
     private val warningSecond: Long = 5
@@ -32,6 +32,7 @@ class MainView: View() {
             title = "트리거 타이머",
             initialTime = Time(seconds = 15),
             warningSecond = warningSecond,
+            type = SoundType.Trigger,
         )
         laserTimer = NormalTimerView.create(
             title = "레이저 타이머",
@@ -39,16 +40,17 @@ class MainView: View() {
             warningSecond = warningSecond,
             type = SoundType.Laser,
         )
-        weaknessTimer = NormalTimerView.create(
-            title = "허약 타이머",
-            initialTime = Time(seconds = 20),
+        arrowTimer = NormalTimerView.create(
+            title = "암흑화살 타이머",
+            initialTime = Time(seconds = 15),
             warningSecond = warningSecond,
+            type = SoundType.Arrow,
         )
         ccTimer = NormalTimerView.create(
             title = "4간섭 타이머",
             initialTime = Time(seconds = 60),
             warningSecond = warningSecond,
-            type = SoundType.CC
+            type = SoundType.CC,
         )
 
     }
@@ -71,7 +73,7 @@ class MainView: View() {
                 }
                 vbox {
                     add(laserTimer)
-                    add(weaknessTimer)
+                    add(arrowTimer)
                 }
                 vbox {
                     run {
